@@ -4,7 +4,8 @@ import java.util.Random;
 public class HomeWorkApp4 {
 
     public static char[][] map;
-    public static int size = 3;
+    public static int size = 5;
+    public static int marksToWin = 4;
     public static final char DOT = '.';
     public static final char DOT_X = 'x';
     public static final char DOT_0 = '0';
@@ -85,7 +86,56 @@ public class HomeWorkApp4 {
     }
 
     public static void checkWin(char currentChar, int x, int y) {
-
+        Scanner scanner = new Scanner(System.in);
+        int sumi = x + y;
+        int difi = x - y;
+        int countRow = 0;
+        int countCol = 0;
+        int countDiag = 0;
+        int countSubDiag = 0;
+        for( int i=0; i< size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i == x && countRow < marksToWin) {
+                    if (map[i][j] == currentChar) {
+                        countRow = countRow + 1;
+                    } else {
+                        countRow = 0;
+                    }
+                }
+                if (j == y && countCol < marksToWin) {
+                    if (map[i][j] == currentChar) {
+                        countCol = countCol + 1;
+                    } else {
+                        countCol = 0;
+                    }
+                }
+                if (i + j == sumi && countDiag < marksToWin) {
+                    if (map[i][j] == currentChar) {
+                        countDiag = countDiag + 1;
+                    } else {
+                        countDiag = 0;
+                    }
+                }
+                if (i - j == difi && countSubDiag < marksToWin) {
+                    if (map[i][j] == currentChar) {
+                        countSubDiag = countSubDiag + 1;
+                    } else {
+                        countSubDiag = 0;
+                    }
+                }
+                if (countRow == marksToWin || countCol == marksToWin || countDiag == marksToWin || countSubDiag == marksToWin) {
+                    String answer;
+                    printXO();
+                    do {
+                        System.out.println(currentChar + " Победили! Начать заново? (Да)");
+                        answer = scanner.next();
+                    } while (!answer.equals("Да"));
+                    initXO();
+                    printXO();
+                    return;
+                }
+            }
+        }
     }
 }
 
